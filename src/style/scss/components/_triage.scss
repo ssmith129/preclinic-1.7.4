@@ -1,0 +1,129 @@
+// Triage Priority Badge Styles
+.triage-priority-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: default;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .ti {
+    font-size: 0.875rem;
+  }
+  
+  .ant-spin {
+    .ant-spin-dot-item {
+      background-color: #fff;
+    }
+  }
+}
+
+// Acuity Score Widget Styles
+.acuity-score-widget {
+  border-radius: 0.5rem;
+  
+  &--loading {
+    background-color: var(--light);
+  }
+  
+  &--compact {
+    .acuity-score-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  }
+  
+  .acuity-score-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+  }
+  
+  .acuity-confidence {
+    .ant-progress-inner {
+      background-color: var(--light);
+    }
+  }
+  
+  .acuity-factor-tag {
+    background-color: var(--light);
+    border: none;
+    color: var(--gray-700);
+  }
+}
+
+// Patient Queue Card Styles
+.patient-queue-card {
+  border-radius: 0.5rem;
+  transition: box-shadow 0.2s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .patient-name {
+    font-size: 1rem;
+    
+    &:hover {
+      color: var(--primary) !important;
+    }
+  }
+  
+  .patient-timing {
+    .wait-time {
+      &--critical {
+        color: #F44336;
+        font-weight: 600;
+      }
+      
+      &--warning {
+        color: #FF9800;
+        font-weight: 500;
+      }
+      
+      &--normal {
+        color: var(--gray-600);
+      }
+    }
+  }
+  
+  .symptom-tag {
+    background-color: var(--light);
+    border: none;
+    color: var(--gray-700);
+    
+    &--more {
+      background-color: var(--primary-transparent);
+      color: var(--primary);
+      cursor: pointer;
+    }
+  }
+  
+  .vital-item {
+    background-color: var(--light);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+  
+  .patient-queue-actions {
+    .btn {
+      font-size: 0.8125rem;
+    }
+  }
+}
+
+// Priority-specific badge colors (for reference)
+.priority-critical { background-color: #F44336; }
+.priority-urgent { background-color: #FF9800; }
+.priority-semi-urgent { background-color: #FFC107; }
+.priority-standard { background-color: #4CAF50; }
+.priority-non-urgent { background-color: #2196F3; }
