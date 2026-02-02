@@ -15,7 +15,7 @@ import {
 import { DatePicker, Select } from "antd";
 import Datatable from "../../../../../core/common/dataTable";
 import Modals from "./modals/modals";
-import { TriagePriorityBadge } from "../../ai";
+import { TriagePriorityBadge } from "../../../../components/ai";
 
 // Mock symptoms based on doctor specialty for demo purposes
 const SPECIALTY_SYMPTOMS: Record<string, string[]> = {
