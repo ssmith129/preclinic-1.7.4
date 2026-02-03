@@ -10,6 +10,7 @@ import SCol19Chart from "./chats/scol19";
 import CircleChart from "./chats/circleChart";
 import { Calendar, type CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
+import { AIDashboardSection } from "../../ai";
 
 const Dashboard = () => {
   const [sColChart] = useState<any>({
@@ -73,7 +74,11 @@ const Dashboard = () => {
           {/* Page Header */}
           <div className="d-flex align-items-sm-center justify-content-between flex-wrap gap-2 mb-4">
             <div>
-              <h4 className="fw-bold mb-0">Admin Dashboard </h4>
+              <h4 className="fw-bold mb-0">Admin Dashboard</h4>
+              <span className="badge bg-primary mt-1">
+                <i className="ti ti-sparkles me-1" />
+                AI-Enhanced
+              </span>
             </div>
             <div className="d-flex align-items-center flex-wrap gap-2">
               <Link
