@@ -244,6 +244,10 @@ const Dashboard = () => {
             {/* end col */}
           </div>
           {/* end row */}
+
+          {/* AI-Powered Insights Section */}
+          <AIDashboardSection userRole="admin" userId="admin-1" />
+
           {/* row start */}
           <div className="row">
             {/* col start */}
