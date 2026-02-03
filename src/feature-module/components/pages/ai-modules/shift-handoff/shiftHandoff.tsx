@@ -10,7 +10,7 @@ const ShiftHandoff: React.FC = () => {
           <div className="row align-items-center">
             <div className="col-sm-12">
               <div className="page-sub-header">
-                <h3 className="page-title">AI-Powered Shift Handoff</h3>
+                <h3 className="page-title">Smart Shift Handoff</h3>
                 <ul className="breadcrumb">
                   <li className="breadcrumb-item">
                     <a href="/dashboard">Dashboard</a>
