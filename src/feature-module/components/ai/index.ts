@@ -24,3 +24,6 @@ export { default as SmartMessageRouter } from './SmartMessageRouter';
 
 // Feature 6: Intelligent Appointment Calendar
 export { default as IntelligentCalendar } from './IntelligentCalendar';
+
+// Feature 7: AI Assistant Popup
+export { default as AIAssistantPopup } from './AIAssistantPopup';
