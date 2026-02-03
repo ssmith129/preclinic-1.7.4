@@ -119,7 +119,6 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
       <div className="handoff-header">
         <div className="header-top">
           <div className="header-title">
-            <span className="shift-icon">{getShiftIcon(currentReport.shiftType)}</span>
             <div className="title-text">
               <h2>Shift Handoff</h2>
               <span className="shift-info">
