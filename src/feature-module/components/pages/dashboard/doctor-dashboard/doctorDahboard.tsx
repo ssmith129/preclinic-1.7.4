@@ -6,6 +6,7 @@ import SCol5Chart from "./charts/scol5";
 import SCol6Chart from "./charts/scol6";
 import SCol7Chart from "./charts/scol7";
 import CircleChart2 from "./charts/circleChart2";
+import { ShiftHandoffWidget } from "../../../ai";
 
 const DoctorDahboard = () => {
   return (
@@ -132,6 +133,78 @@ const DoctorDahboard = () => {
             {/* col end */}
           </div>
           {/* row end */}
+
+          {/* AI Shift Handoff Widget Section */}
+          <div className="row mb-4">
+            <div className="col-xl-5 col-lg-12 mb-4 mb-xl-0">
+              <ShiftHandoffWidget />
+            </div>
+            <div className="col-xl-7 col-lg-12">
+              <div className="card shadow-sm h-100">
+                <div className="card-header d-flex align-items-center justify-content-between py-2">
+                  <div className="d-flex align-items-center">
+                    <h6 className="fw-bold mb-0 fs-14">My Patient Summary</h6>
+                    <span className="badge bg-primary text-white ms-2 px-2 py-1 fs-10">
+                      <i className="ti ti-sparkles me-1" />
+                      AI
+                    </span>
+                  </div>
+                </div>
+                <div className="card-body">
+                  <div className="row g-3">
+                    <div className="col-md-3 col-6">
+                      <div className="border rounded-2 p-3 text-center bg-soft-primary">
+                        <h4 className="fw-bold mb-1 text-primary">24</h4>
+                        <p className="mb-0 fs-12 text-muted">Total Patients</p>
+                      </div>
+                    </div>
+                    <div className="col-md-3 col-6">
+                      <div className="border rounded-2 p-3 text-center bg-soft-danger">
+                        <h4 className="fw-bold mb-1 text-danger">3</h4>
+                        <p className="mb-0 fs-12 text-muted">Critical</p>
+                      </div>
+                    </div>
+                    <div className="col-md-3 col-6">
+                      <div className="border rounded-2 p-3 text-center bg-soft-warning">
+                        <h4 className="fw-bold mb-1 text-warning">5</h4>
+                        <p className="mb-0 fs-12 text-muted">Pending Review</p>
+                      </div>
+                    </div>
+                    <div className="col-md-3 col-6">
+                      <div className="border rounded-2 p-3 text-center bg-soft-success">
+                        <h4 className="fw-bold mb-1 text-success">16</h4>
+                        <p className="mb-0 fs-12 text-muted">Stable</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3 p-2 rounded-2" style={{ backgroundColor: '#F3E5F5' }}>
+                    <div className="d-flex align-items-start">
+                      <i className="ti ti-sparkles me-2 mt-1 flex-shrink-0" style={{ color: '#7B1FA2' }} />
+                      <p className="mb-0 fs-12 text-dark">
+                        3 patients require immediate attention. Mrs. Santos showing declining vitals - recommend urgent review.
+                        Mr. Johnson's lab results are ready for review.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center gap-2 mt-3 pt-2 border-top flex-wrap">
+                    <span className="d-flex align-items-center fs-12 text-muted">
+                      <i className="ti ti-trending-up text-success me-1" />
+                      8 Improving
+                    </span>
+                    <span className="d-flex align-items-center fs-12 text-muted">
+                      <i className="ti ti-minus text-secondary me-1" />
+                      12 Stable
+                    </span>
+                    <span className="d-flex align-items-center fs-12 text-muted">
+                      <i className="ti ti-trending-down text-danger me-1" />
+                      4 Declining
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* row start */}
           <div className="row">
             {/* col start */}

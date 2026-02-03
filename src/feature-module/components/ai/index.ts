@@ -27,3 +27,28 @@ export { default as IntelligentCalendar } from './IntelligentCalendar';
 
 // Feature 7: AI Assistant Popup
 export { default as AIAssistantPopup } from './AIAssistantPopup';
+
+// Feature 7: AI-Powered Shift Handoff
+export {
+  ShiftHandoffSummary,
+  SBARGenerator,
+  PatientHandoffCard,
+  HandoffTimeline,
+  ShiftHandoffWidget,
+} from './shift-handoff';
+
+// Feature 9: Voice Documentation Assistant
+export {
+  VoiceRecorder,
+  TranscriptionEditor,
+  NoteFormatter,
+  MedicalTermsHighlighter,
+} from './voice-documentation';
+
+// Feature 10: Drug Interaction Checker
+export {
+  DrugInteractionChecker,
+  InteractionAlert,
+  MedicationReviewPanel,
+  SeverityBadge,
+} from './drug-interaction';

@@ -242,7 +242,7 @@ const IntelligentCalendar: React.FC = () => {
               <div>
                 <h6 className="mb-1 fw-bold d-flex align-items-center">
                   <i className="ti ti-sparkles text-warning me-2" />
-                  AI-Suggested Slots
+                  Suggested Slots
                 </h6>
                 {selectedDate && (
                   <small className="text-muted">{formatDate(selectedDate)}</small>

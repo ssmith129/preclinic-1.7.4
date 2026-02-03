@@ -92,6 +92,9 @@ export const all_routes = {
   addInvoice: "/add-invoice",
   notifications:"/notifications",
 
+  //AI Features routes
+  shiftHandoff: "/ai/shift-handoff",
+
   //Layout Routes
   layoutDefault: "/layout-default",
   layoutMini: "/layout-mini",
