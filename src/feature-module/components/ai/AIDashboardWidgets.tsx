@@ -79,41 +79,58 @@ const SmartWidget: React.FC<SmartWidgetProps> = ({ widgetId, onInteraction, aiRe
 // Patient Acuity Widget
 const PatientAcuityWidget: React.FC = () => {
   const acuityData = [
-    { level: 'Critical', count: 2, color: '#F44336' },
-    { level: 'Urgent', count: 5, color: '#FF9800' },
-    { level: 'Semi-Urgent', count: 8, color: '#FFC107' },
-    { level: 'Standard', count: 15, color: '#4CAF50' },
-    { level: 'Non-Urgent', count: 12, color: '#2196F3' },
+    { level: 'Critical', count: 2, color: '#F44336', bgClass: 'bg-soft-danger' },
+    { level: 'Urgent', count: 5, color: '#FF9800', bgClass: 'bg-soft-warning' },
+    { level: 'Semi-Urgent', count: 8, color: '#FFC107', bgClass: 'bg-soft-warning' },
+    { level: 'Standard', count: 15, color: '#4CAF50', bgClass: 'bg-soft-success' },
+    { level: 'Non-Urgent', count: 12, color: '#2196F3', bgClass: 'bg-soft-info' },
   ];
+
+  const totalHighPriority = acuityData.slice(0, 2).reduce((sum, item) => sum + item.count, 0);
+  const totalStandard = acuityData.slice(2).reduce((sum, item) => sum + item.count, 0);
 
   return (
     <div>
-      <div className="row mb-3">
+      {/* Summary Stats Row */}
+      <div className="row g-2 mb-3">
         <div className="col-6">
-          <div className="text-center p-3 bg-light rounded">
-            <h2 className="fw-bold mb-0 text-danger">7</h2>
-            <small className="text-muted">High Priority</small>
+          <div className="border rounded-2 p-2 text-center bg-soft-danger">
+            <h4 className="fw-bold mb-0 text-danger">{totalHighPriority}</h4>
+            <span className="fs-12 text-muted">High Priority</span>
           </div>
         </div>
         <div className="col-6">
-          <div className="text-center p-3 bg-light rounded">
-            <h2 className="fw-bold mb-0 text-success">35</h2>
-            <small className="text-muted">Standard</small>
+          <div className="border rounded-2 p-2 text-center bg-soft-success">
+            <h4 className="fw-bold mb-0 text-success">{totalStandard}</h4>
+            <span className="fs-12 text-muted">Standard</span>
           </div>
         </div>
       </div>
-      {acuityData.map((item) => (
-        <div key={item.level} className="d-flex align-items-center justify-content-between mb-2">
-          <div className="d-flex align-items-center">
+
+      {/* Acuity Breakdown List */}
+      <div className="acuity-list">
+        {acuityData.map((item) => (
+          <div
+            key={item.level}
+            className="d-flex align-items-center justify-content-between py-1 border-bottom"
+            style={{ borderColor: '#f0f0f0' }}
+          >
+            <div className="d-flex align-items-center">
+              <span
+                className="rounded-circle me-2 flex-shrink-0"
+                style={{ width: 8, height: 8, backgroundColor: item.color }}
+              />
+              <span className="fs-13">{item.level}</span>
+            </div>
             <span
-              className="rounded-circle me-2"
-              style={{ width: 10, height: 10, backgroundColor: item.color }}
-            />
-            <span>{item.level}</span>
+              className="badge px-2 py-1 fs-12 fw-medium"
+              style={{ backgroundColor: `${item.color}20`, color: item.color }}
+            >
+              {item.count}
+            </span>
           </div>
-          <span className="badge bg-light text-dark">{item.count}</span>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
