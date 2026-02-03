@@ -1,5 +1,10 @@
 /* AI Components Styles - PreClinic Platform */
 
+// Import AI Feature Styles
+@import "../components/ai/shift-handoff";
+@import "../components/ai/voice-documentation";
+@import "../components/ai/drug-interaction";
+
 // Triage Priority Badge Styles
 .triage-badge {
   display: inline-flex;
