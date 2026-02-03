@@ -34,6 +34,7 @@ export {
   SBARGenerator,
   PatientHandoffCard,
   HandoffTimeline,
+  ShiftHandoffWidget,
 } from './shift-handoff';
 
 // Feature 9: Voice Documentation Assistant
