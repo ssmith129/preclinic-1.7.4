@@ -15,6 +15,25 @@ import {
 import { DatePicker, Select } from "antd";
 import Datatable from "../../../../../core/common/dataTable";
 import Modals from "./modals/modals";
+import { TriagePriorityBadge } from "../../../../components/ai";
+
+// Mock symptoms based on doctor specialty for demo purposes
+const SPECIALTY_SYMPTOMS: Record<string, string[]> = {
+  "Cardiologist": ["chest pain", "shortness of breath", "palpitations"],
+  "Orthopedic Surgeon": ["joint pain", "limited mobility", "swelling"],
+  "Pediatrician": ["fever", "cough", "fatigue"],
+  "Gynecologist": ["abdominal pain", "irregular symptoms"],
+  "Psychiatrist": ["anxiety", "sleep issues", "mood changes"],
+  "Neurosurgeon": ["severe headache", "numbness", "dizziness"],
+  "Oncologist": ["fatigue", "weight loss", "pain"],
+  "Pulmonologist": ["difficulty breathing", "persistent cough", "wheezing"],
+  "Urologist": ["urinary symptoms", "discomfort"],
+};
+
+const getSymptomsByRole = (role: string): string[] => {
+  const normalizedRole = role.trim();
+  return SPECIALTY_SYMPTOMS[normalizedRole] || ["general symptoms"];
+};
 
 const PatientAppointments = () => {
   const data = PatientAppoinmentsData;
@@ -56,6 +75,18 @@ const PatientAppointments = () => {
       title: "Mode",
       dataIndex: "Mode",
       sorter: (a: any, b: any) => a.Mode.length - b.Mode.length,
+    },
+    {
+      title: "Triage Priority",
+      dataIndex: "id",
+      render: (_text: string, record: any) => (
+        <TriagePriorityBadge
+          patientId={record.id}
+          symptoms={getSymptomsByRole(record.role)}
+          waitTime={Math.floor(Math.random() * 90) + 10}
+        />
+      ),
+      sorter: false,
     },
     {
       title: "Status",
