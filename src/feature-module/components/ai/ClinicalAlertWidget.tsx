@@ -146,7 +146,7 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
           <small className="text-muted">AI is continuously monitoring patient data</small>
         </div>
       ) : (
-        <div className="alert-timeline">
+        <div className="alert-timeline" style={{ flex: 1, overflowY: 'auto' }}>
           {filteredAlerts.map((alert, idx) => (
             <div
               key={alert.id}
