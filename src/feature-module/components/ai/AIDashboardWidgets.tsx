@@ -49,26 +49,26 @@ const SmartWidget: React.FC<SmartWidgetProps> = ({ widgetId, onInteraction, aiRe
   };
 
   return (
-    <div className="card shadow-sm h-100">
-      <div className="card-header d-flex align-items-center justify-content-between">
+    <div className="card border shadow-sm rounded-2 h-100">
+      <div className="card-header d-flex align-items-center justify-content-between py-2">
         <div className="d-flex align-items-center">
-          <h5 className="fw-bold mb-0">{widgetTitles[widgetId] || widgetId}</h5>
+          <h6 className="fw-bold mb-0 fs-14">{widgetTitles[widgetId] || widgetId}</h6>
           {aiRecommended && (
-            <span className="badge bg-warning text-dark ms-2 fs-10">
+            <span className="badge bg-warning text-dark ms-2 px-2 py-1 fs-10">
               <i className="ti ti-sparkles me-1" />
-              AI Suggested
+              AI
             </span>
           )}
         </div>
         <button
-          className="btn btn-sm btn-outline-secondary border-0"
+          className="btn btn-sm btn-light border-0 p-1"
           onClick={handleToggle}
         >
-          <i className={`ti ti-chevron-${expanded ? 'up' : 'down'}`} />
+          <i className={`ti ti-chevron-${expanded ? 'up' : 'down'} fs-14`} />
         </button>
       </div>
       {expanded && (
-        <div className="card-body">
+        <div className="card-body pt-2 pb-3">
           {getWidgetContent()}
         </div>
       )}
