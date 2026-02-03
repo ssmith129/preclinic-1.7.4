@@ -41,7 +41,7 @@ const SmartWidget: React.FC<SmartWidgetProps> = ({ widgetId, onInteraction, aiRe
     patientAcuity: 'Patient Acuity Overview',
     patientQueue: 'Smart Patient Queue',
     clinicalAlerts: 'Predictive Clinical Alerts',
-    aiInsights: 'AI Insights',
+    aiInsights: 'Smart Insights',
     appointmentStats: 'Appointment Statistics',
     revenueChart: 'Revenue Overview',
     staffSchedule: 'Staff Schedule',
@@ -265,7 +265,7 @@ const AIDashboardSection: React.FC<AIDashboardSectionProps> = ({
       <div className="col-12">
         <div className="d-flex align-items-center justify-content-between mb-3">
           <div className="d-flex align-items-center">
-            <h5 className="fw-bold mb-0">AI-Powered Insights</h5>
+            <h5 className="fw-bold mb-0">Smart Insights</h5>
           </div>
           <Link to={all_routes.appointments} className="btn btn-sm btn-outline-primary">
             View All Insights
