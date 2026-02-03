@@ -1,5 +1,6 @@
 {\rtf1\ansi\ansicpg1252\cocoartf2868
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 AppleColorEmoji;\f2\fnil\fcharset128 HiraginoSans-W3;
+}
 {\colortbl;\red255\green255\blue255;}
 {\*\expandedcolortbl;;}
 \margl1440\margr1440\vieww11840\viewh8400\viewkind0
@@ -22,67 +23,145 @@
 \
 ---\
 \
-## \uc0\u55357 \u56513  Project Structure\
+## 
+\f1 \uc0\u55357 \u56513 
+\f0  Project Structure\
 \
 Before implementing the features, establish the following directory structure:\
 \
 ```\
 src/\
-\uc0\u9500 \u9472 \u9472  feature-module/\
+
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  feature-module/\
 \uc0\u9474    \u9492 \u9472 \u9472  components/\
 \uc0\u9474        \u9492 \u9472 \u9472  ai/\
-\uc0\u9474            \u9500 \u9472 \u9472  shift-handoff/\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  ShiftHandoffSummary.tsx\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  SBARGenerator.tsx\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  PatientHandoffCard.tsx\
+\uc0\u9474            
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  shift-handoff/\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  ShiftHandoffSummary.tsx\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  SBARGenerator.tsx\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  PatientHandoffCard.tsx\
 \uc0\u9474            \u9474    \u9492 \u9472 \u9472  HandoffTimeline.tsx\
-\uc0\u9474            \u9500 \u9472 \u9472  voice-documentation/\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  VoiceRecorder.tsx\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  TranscriptionEditor.tsx\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  NoteFormatter.tsx\
+\uc0\u9474            
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  voice-documentation/\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  VoiceRecorder.tsx\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  TranscriptionEditor.tsx\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  NoteFormatter.tsx\
 \uc0\u9474            \u9474    \u9492 \u9472 \u9472  MedicalTermsHighlighter.tsx\
-\uc0\u9474            \u9500 \u9472 \u9472  drug-interaction/\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  DrugInteractionChecker.tsx\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  InteractionAlert.tsx\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  MedicationReviewPanel.tsx\
+\uc0\u9474            
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  drug-interaction/\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  DrugInteractionChecker.tsx\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  InteractionAlert.tsx\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  MedicationReviewPanel.tsx\
 \uc0\u9474            \u9474    \u9492 \u9472 \u9472  SeverityBadge.tsx\
-\uc0\u9474            \u9500 \u9472 \u9472  patient-summary/\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  PatientHistorySummarizer.tsx\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  DiagnosisTimeline.tsx\
-\uc0\u9474            \u9474    \u9500 \u9472 \u9472  TreatmentHighlights.tsx\
+\uc0\u9474            
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  patient-summary/\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  PatientHistorySummarizer.tsx\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  DiagnosisTimeline.tsx\
+\uc0\u9474            \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  TreatmentHighlights.tsx\
 \uc0\u9474            \u9474    \u9492 \u9472 \u9472  TrendAnalysisChart.tsx\
 \uc0\u9474            \u9492 \u9472 \u9472  ai-assistant/\
-\uc0\u9474                \u9500 \u9472 \u9472  AIAssistantButton.tsx\
-\uc0\u9474                \u9500 \u9472 \u9472  AIAssistantPopup.tsx\
-\uc0\u9474                \u9500 \u9472 \u9472  AssistantChatInterface.tsx\
-\uc0\u9474                \u9500 \u9472 \u9472  QuickActionCards.tsx\
+\uc0\u9474                
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  AIAssistantButton.tsx\
+\uc0\u9474                
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  AIAssistantPopup.tsx\
+\uc0\u9474                
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  AssistantChatInterface.tsx\
+\uc0\u9474                
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  QuickActionCards.tsx\
 \uc0\u9474                \u9492 \u9472 \u9472  NavigationHelper.tsx\
-\uc0\u9500 \u9472 \u9472  core/\
-\uc0\u9474    \u9500 \u9472 \u9472  redux/\
-\uc0\u9474    \u9474    \u9500 \u9472 \u9472  shiftHandoffSlice.ts\
-\uc0\u9474    \u9474    \u9500 \u9472 \u9472  voiceDocSlice.ts\
-\uc0\u9474    \u9474    \u9500 \u9472 \u9472  drugInteractionSlice.ts\
-\uc0\u9474    \u9474    \u9500 \u9472 \u9472  patientSummarySlice.ts\
+
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  core/\
+\uc0\u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  redux/\
+\uc0\u9474    \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  shiftHandoffSlice.ts\
+\uc0\u9474    \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  voiceDocSlice.ts\
+\uc0\u9474    \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  drugInteractionSlice.ts\
+\uc0\u9474    \u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  patientSummarySlice.ts\
 \uc0\u9474    \u9474    \u9492 \u9472 \u9472  aiAssistantSlice.ts\
-\uc0\u9474    \u9500 \u9472 \u9472  api/\
+\uc0\u9474    
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  api/\
 \uc0\u9474    \u9474    \u9492 \u9472 \u9472  mock/\
-\uc0\u9474    \u9474        \u9500 \u9472 \u9472  shiftHandoffMockApi.ts\
-\uc0\u9474    \u9474        \u9500 \u9472 \u9472  voiceDocMockApi.ts\
-\uc0\u9474    \u9474        \u9500 \u9472 \u9472  drugInteractionMockApi.ts\
-\uc0\u9474    \u9474        \u9500 \u9472 \u9472  patientSummaryMockApi.ts\
+\uc0\u9474    \u9474        
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  shiftHandoffMockApi.ts\
+\uc0\u9474    \u9474        
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  voiceDocMockApi.ts\
+\uc0\u9474    \u9474        
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  drugInteractionMockApi.ts\
+\uc0\u9474    \u9474        
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  patientSummaryMockApi.ts\
 \uc0\u9474    \u9474        \u9492 \u9472 \u9472  aiAssistantMockApi.ts\
 \uc0\u9474    \u9492 \u9472 \u9472  hooks/\
-\uc0\u9474        \u9500 \u9472 \u9472  useVoiceRecognition.ts\
-\uc0\u9474        \u9500 \u9472 \u9472  useDrugInteraction.ts\
+\uc0\u9474        
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  useVoiceRecognition.ts\
+\uc0\u9474        
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  useDrugInteraction.ts\
 \uc0\u9474        \u9492 \u9472 \u9472  useAIAssistant.ts\
 \uc0\u9492 \u9472 \u9472  style/\
     \uc0\u9492 \u9472 \u9472  scss/\
         \uc0\u9492 \u9472 \u9472  components/\
             \uc0\u9492 \u9472 \u9472  ai/\
-                \uc0\u9500 \u9472 \u9472  _shift-handoff.scss\
-                \uc0\u9500 \u9472 \u9472  _voice-documentation.scss\
-                \uc0\u9500 \u9472 \u9472  _drug-interaction.scss\
-                \uc0\u9500 \u9472 \u9472  _patient-summary.scss\
+                
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  _shift-handoff.scss\
+                
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  _voice-documentation.scss\
+                
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  _drug-interaction.scss\
+                
+\f2 \'84\'a5
+\f0 \uc0\u9472 \u9472  _patient-summary.scss\
                 \uc0\u9492 \u9472 \u9472  _ai-assistant.scss\
 \
 ## Feature 9: Voice Documentation Assistant\
@@ -996,10 +1075,18 @@ export const TranscriptionEditor: React.FC = (\{\
   \};\
 \
   const soapSections = [\
-    \{ key: 'subjective', label: 'Subjective', color: '#F44336', icon: '\uc0\u55357 \u56492 ' \},\
-    \{ key: 'objective', label: 'Objective', color: '#2196F3', icon: '\uc0\u55357 \u56589 ' \},\
-    \{ key: 'assessment', label: 'Assessment', color: '#FF9800', icon: '\uc0\u55357 \u56523 ' \},\
-    \{ key: 'plan', label: 'Plan', color: '#4CAF50', icon: '\uc0\u55357 \u56541 ' \}\
+    \{ key: 'subjective', label: 'Subjective', color: '#F44336', icon: '
+\f1 \uc0\u55357 \u56492 
+\f0 ' \},\
+    \{ key: 'objective', label: 'Objective', color: '#2196F3', icon: '
+\f1 \uc0\u55357 \u56589 
+\f0 ' \},\
+    \{ key: 'assessment', label: 'Assessment', color: '#FF9800', icon: '
+\f1 \uc0\u55357 \u56523 
+\f0 ' \},\
+    \{ key: 'plan', label: 'Plan', color: '#4CAF50', icon: '
+\f1 \uc0\u55357 \u56541 
+\f0 ' \}\
   ];\
 \
   return (\
@@ -1042,7 +1129,9 @@ export const TranscriptionEditor: React.FC = (\{\
       \{/* ICD-10 Codes */\}\
       \
         \
-          \uc0\u55356 \u57335 \u65039  Suggested ICD-10 Codes\
+          
+\f1 \uc0\u55356 \u57335 \u65039 
+\f0  Suggested ICD-10 Codes\
         \
         <List\
           size="small"\
@@ -1070,7 +1159,9 @@ export const TranscriptionEditor: React.FC = (\{\
       \{/* CPT Codes */\}\
       \
         \
-          \uc0\u55357 \u56496  Suggested CPT Codes\
+          
+\f1 \uc0\u55357 \u56496 
+\f0  Suggested CPT Codes\
         \
         \
           \{note.cptCodes.map((cpt, idx) => (\
@@ -1257,8 +1348,16 @@ $\{note.cptCodes.map(c => `$\{c.code\} - $\{c.description\}`).join('\\n')\}\
 \
 ### Success Metrics\
 \
-- \uc0\u9989  60% reduction in documentation time (from 2+ hours to <45 min daily)\
-- \uc0\u9989  95% accuracy in medical terminology transcription\
-- \uc0\u9989  85% of generated notes require minimal editing\
-- \uc0\u9989  90% physician satisfaction with voice documentation workflow\
+- 
+\f1 \uc0\u9989 
+\f0  60% reduction in documentation time (from 2+ hours to <45 min daily)\
+- 
+\f1 \uc0\u9989 
+\f0  95% accuracy in medical terminology transcription\
+- 
+\f1 \uc0\u9989 
+\f0  85% of generated notes require minimal editing\
+- 
+\f1 \uc0\u9989 
+\f0  90% physician satisfaction with voice documentation workflow\
 }
