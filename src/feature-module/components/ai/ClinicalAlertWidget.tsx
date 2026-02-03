@@ -117,7 +117,7 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
   }
 
   return (
-    <div className="clinical-alerts-widget">
+    <div className="clinical-alerts-widget" style={{ maxHeight: '380px', display: 'flex', flexDirection: 'column' }}>
       <div className="d-flex align-items-center justify-content-between mb-3">
         <div className="d-flex align-items-center">
           <i className="ti ti-alert-triangle-filled text-danger me-2 fs-5" />
