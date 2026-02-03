@@ -117,121 +117,99 @@ const ClinicalAlertWidget: React.FC<ClinicalAlertWidgetProps> = ({
   }
 
   return (
-    <div className="clinical-alerts-widget" style={{ maxHeight: '380px', display: 'flex', flexDirection: 'column' }}>
-      <div className="d-flex align-items-center justify-content-between mb-3">
+    <div className="clinical-alerts-widget">
+      {/* Status Header */}
+      <div className="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
         <div className="d-flex align-items-center">
-          <i className="ti ti-alert-triangle-filled text-danger me-2 fs-5" />
-          <span className="fw-bold">Predictive Clinical Alerts</span>
+          <i className="ti ti-activity-heartbeat text-danger me-2" />
+          <span className="fs-13 fw-medium">Live Monitoring</span>
         </div>
-        <div className="d-flex align-items-center">
-          <span className={`status-indicator me-2 ${connected ? 'connected' : 'disconnected'}`}>
-            <span
-              className="rounded-circle d-inline-block me-1"
-              style={{
-                width: 8,
-                height: 8,
-                backgroundColor: connected ? '#4CAF50' : '#9e9e9e',
-                animation: connected ? 'pulse 2s infinite' : 'none'
-              }}
-            />
-            {connected ? 'Live' : 'Reconnecting...'}
+        <span className="d-flex align-items-center fs-12">
+          <span
+            className="rounded-circle d-inline-block me-1"
+            style={{
+              width: 6,
+              height: 6,
+              backgroundColor: connected ? '#4CAF50' : '#9e9e9e',
+              animation: connected ? 'pulse 2s infinite' : 'none'
+            }}
+          />
+          <span className={connected ? 'text-success' : 'text-muted'}>
+            {connected ? 'Live' : 'Offline'}
           </span>
-        </div>
+        </span>
       </div>
 
       {filteredAlerts.length === 0 ? (
-        <div className="text-center py-4">
-          <i className="ti ti-shield-check text-success fs-1 mb-2 d-block" />
-          <p className="text-muted mb-0">No high-priority alerts at this time</p>
-          <small className="text-muted">AI is continuously monitoring patient data</small>
+        <div className="text-center py-3">
+          <i className="ti ti-shield-check text-success fs-2 mb-2 d-block opacity-75" />
+          <p className="text-muted mb-0 fs-13">No high-priority alerts</p>
+          <span className="text-muted fs-12">AI is continuously monitoring patient data</span>
         </div>
       ) : (
-        <div className="alert-timeline" style={{ flex: 1, overflowY: 'auto' }}>
-          {filteredAlerts.map((alert, idx) => (
+        <div className="alert-timeline" style={{ maxHeight: '280px', overflowY: 'auto' }}>
+          {filteredAlerts.map((alert) => (
             <div
               key={alert.id}
-              className={`alert-item mb-3 p-3 rounded border-start border-4`}
-              style={{ borderColor: getRiskColor(alert.riskLevel) }}
+              className="alert-item py-2 border-bottom"
+              style={{ borderColor: '#f0f0f0' }}
             >
-              <div className="d-flex justify-content-between align-items-start mb-2">
+              {/* Patient Row */}
+              <div className="d-flex align-items-center justify-content-between mb-1">
                 <div className="d-flex align-items-center">
-                  <div className="avatar avatar-sm me-2">
-                    <ImageWithBasePath
-                      src={`assets/img/users/${alert.patientImage}`}
-                      alt={alert.patientName}
-                      className="rounded-circle"
-                    />
-                  </div>
-                  <div>
-                    <strong className="d-block">{alert.patientName}</strong>
-                    <span className={`badge ${getRiskBgClass(alert.riskLevel)} text-white small`}>
-                      {alert.riskLevel.toUpperCase()}
-                    </span>
-                  </div>
+                  <span
+                    className="rounded-circle me-2 flex-shrink-0"
+                    style={{ width: 8, height: 8, backgroundColor: getRiskColor(alert.riskLevel) }}
+                  />
+                  <span className="fs-13 fw-medium">{alert.patientName}</span>
+                  <span
+                    className="badge ms-2 px-1 py-0 fs-10"
+                    style={{ backgroundColor: `${getRiskColor(alert.riskLevel)}20`, color: getRiskColor(alert.riskLevel) }}
+                  >
+                    {alert.riskLevel}
+                  </span>
                 </div>
                 <Tooltip title={`${alert.confidence}% confidence`}>
-                  <Progress
-                    type="circle"
-                    percent={alert.confidence}
-                    size={40}
-                    strokeColor={getRiskColor(alert.riskLevel)}
-                    format={(percent) => `${percent}%`}
-                  />
+                  <span
+                    className="badge px-2 py-1 fs-10 fw-medium"
+                    style={{ backgroundColor: `${getRiskColor(alert.riskLevel)}15`, color: getRiskColor(alert.riskLevel) }}
+                  >
+                    {alert.confidence}%
+                  </span>
                 </Tooltip>
               </div>
 
-              <div className="alert-content">
-                <p className="mb-2">
-                  <strong>Predicted:</strong> {alert.predictedEvent}
-                  <span className="text-muted ms-1">within {alert.timeframe}</span>
-                </p>
+              {/* Prediction */}
+              <div className="fs-12 text-muted mb-1">
+                <span className="text-dark">{alert.predictedEvent}</span>
+                <span className="ms-1">• {alert.timeframe}</span>
+              </div>
 
-                <div className="mb-2">
-                  <strong className="small text-muted">Contributing Factors:</strong>
-                  <div className="d-flex flex-wrap gap-1 mt-1">
-                    {alert.contributingFactors.map((factor, i) => (
-                      <span key={i} className="badge bg-light text-dark small">
-                        {factor}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="recommended-actions">
-                  <strong className="small text-muted">Recommended Actions:</strong>
-                  <ul className="mb-0 ps-3 mt-1 small">
-                    {alert.recommendedActions.slice(0, 3).map((action, i) => (
-                      <li key={i}>{action}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="d-flex gap-2 mt-3">
-                  <button
-                    className="btn btn-sm btn-primary"
-                    onClick={() => handleAcknowledge(alert)}
-                  >
-                    <i className="ti ti-check me-1" />
-                    Acknowledge
-                  </button>
-                  <button
-                    className="btn btn-sm btn-outline-secondary"
-                    onClick={() => handleDismiss(alert.id)}
-                  >
-                    Dismiss
-                  </button>
-                </div>
+              {/* Actions */}
+              <div className="d-flex gap-1">
+                <button
+                  className="btn btn-sm py-0 px-2 fs-11 btn-outline-primary"
+                  onClick={() => handleAcknowledge(alert)}
+                >
+                  Acknowledge
+                </button>
+                <button
+                  className="btn btn-sm py-0 px-2 fs-11 btn-light"
+                  onClick={() => handleDismiss(alert.id)}
+                >
+                  Dismiss
+                </button>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      <div className="text-center mt-3 pt-3 border-top">
-        <small className="text-muted">
+      <div className="text-center pt-2">
+        <span className="text-muted fs-12">
           <i className="ti ti-sparkles me-1" />
-          AI predictions based on vital trends, lab results, and historical patterns
-        </small>
+          AI predictions based on vital trends
+        </span>
       </div>
     </div>
   );
