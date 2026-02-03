@@ -243,10 +243,6 @@ const AIDashboardSection: React.FC<AIDashboardSectionProps> = ({
         <div className="d-flex align-items-center justify-content-between mb-3">
           <div className="d-flex align-items-center">
             <h5 className="fw-bold mb-0">AI-Powered Insights</h5>
-            <span className="badge bg-primary ms-2">
-              <i className="ti ti-sparkles me-1" />
-              AI Enhanced
-            </span>
           </div>
           <Link to={all_routes.appointments} className="btn btn-sm btn-outline-primary">
             View All Insights
