@@ -1,8 +1,18 @@
 import { Link } from "react-router";
+import { useState } from "react";
 import { all_routes } from "../../../../routes/all_routes";
 import ImageWithBasePath from "../../../../../core/imageWithBasePath";
+import { SmartMessageRouter } from "../../../ai";
 
 const Messages = () => {
+  const [showSmartComposer, setShowSmartComposer] = useState(false);
+
+  const handleSendSmartMessage = (content: string, recipients: string[]) => {
+    console.log('Sending message:', content, 'to:', recipients);
+    setShowSmartComposer(false);
+    // In a real app, this would send the message via API
+  };
+
   return (
     <>
       {/* ========================
@@ -18,7 +28,24 @@ const Messages = () => {
                   <div className="chat-search-header">
                     <div className="header-title d-flex align-items-center justify-content-between">
                       <h6 className="mb-3">Chats</h6>
+                      <button
+                        className="btn btn-sm btn-warning mb-3"
+                        onClick={() => setShowSmartComposer(!showSmartComposer)}
+                        title="AI-Powered Smart Compose"
+                      >
+                        <i className="ti ti-sparkles" />
+                      </button>
                     </div>
+
+                    {/* Smart Message Router Panel */}
+                    {showSmartComposer && (
+                      <div className="mb-3">
+                        <SmartMessageRouter
+                          onSend={handleSendSmartMessage}
+                          placeholder="Type your message... AI will analyze and suggest routing"
+                        />
+                      </div>
+                    )}
                     {/* Chat Search */}
                     <div className="search-wrap">
                       <form>
