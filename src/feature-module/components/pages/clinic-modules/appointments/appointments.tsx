@@ -7,6 +7,7 @@ import SearchInput from "../../../../../core/common/dataTable/dataTableSearch";
 import Datatable from "../../../../../core/common/dataTable";
 import PredefinedDatePicker from "../../../../../core/common/datePicker";
 import Modals from "./modals/modals";
+import { SmartScheduler, TriagePriorityBadge } from "../../../ai";
 
 const Appointments = () => {
   const data = AppointmentsData;
@@ -138,9 +139,15 @@ const Appointments = () => {
     },
   ];
   const [searchText, setSearchText] = useState<string>("");
+  const [showSmartScheduler, setShowSmartScheduler] = useState(false);
 
   const handleSearch = (value: string) => {
     setSearchText(value);
+  };
+
+  const handleSmartBook = () => {
+    setShowSmartScheduler(false);
+    // Refresh data after booking
   };
 
   return (
@@ -200,9 +207,70 @@ const Appointments = () => {
               >
                 <i className="ti ti-plus me-1" /> New Appointment
               </Link>
+              <button
+                onClick={() => setShowSmartScheduler(!showSmartScheduler)}
+                className="btn btn-warning ms-2 fs-13 btn-md"
+              >
+                <i className="ti ti-sparkles me-1" /> AI Scheduler
+              </button>
             </div>
           </div>
           {/* End Page Header */}
+
+          {/* Smart Scheduler AI Section */}
+          {showSmartScheduler && (
+            <div className="row mb-4">
+              <div className="col-lg-6">
+                <SmartScheduler
+                  patientId="patient-new"
+                  appointmentType="General Consultation"
+                  onBook={handleSmartBook}
+                />
+              </div>
+              <div className="col-lg-6">
+                <div className="card shadow-sm h-100">
+                  <div className="card-header">
+                    <h5 className="fw-bold mb-0">
+                      <i className="ti ti-info-circle me-2" />
+                      Smart Scheduling Benefits
+                    </h5>
+                  </div>
+                  <div className="card-body">
+                    <ul className="list-unstyled mb-0">
+                      <li className="d-flex align-items-start mb-3">
+                        <i className="ti ti-check-circle text-success me-2 mt-1" />
+                        <div>
+                          <strong>Reduced No-Shows</strong>
+                          <p className="mb-0 text-muted small">AI predicts optimal times with lower cancellation risk</p>
+                        </div>
+                      </li>
+                      <li className="d-flex align-items-start mb-3">
+                        <i className="ti ti-check-circle text-success me-2 mt-1" />
+                        <div>
+                          <strong>Provider Optimization</strong>
+                          <p className="mb-0 text-muted small">Matches patient needs with provider availability</p>
+                        </div>
+                      </li>
+                      <li className="d-flex align-items-start mb-3">
+                        <i className="ti ti-check-circle text-success me-2 mt-1" />
+                        <div>
+                          <strong>Wait Time Reduction</strong>
+                          <p className="mb-0 text-muted small">Optimizes scheduling to minimize patient wait times</p>
+                        </div>
+                      </li>
+                      <li className="d-flex align-items-start">
+                        <i className="ti ti-check-circle text-success me-2 mt-1" />
+                        <div>
+                          <strong>Historical Learning</strong>
+                          <p className="mb-0 text-muted small">Improves predictions based on past patterns</p>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           {/*  Start Filter */}
           <div className=" d-flex align-items-center justify-content-between flex-wrap">
             <div className="d-flex align-items-center gap-2">

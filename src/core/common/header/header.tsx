@@ -6,6 +6,7 @@ import { updateTheme } from "../../redux/themeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setMobileSidebar } from "../../redux/sidebarSlice";
 import { all_routes } from "../../../feature-module/routes/all_routes";
+import { AIAssistantPopup } from "../../../feature-module/components/ai";
 
 const Header = () => {
 
@@ -15,6 +16,7 @@ const Header = () => {
     const saved = localStorage.getItem("hiddenLayoutActive");
     return saved ? JSON.parse(saved) : false;
   });
+  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
 
   useEffect(() => {
     const htmlElement: any = document.documentElement;
@@ -141,13 +143,14 @@ const Header = () => {
               </button>
             </div>
             {/* AI Assistance */}
-            <Link
-              to="#"
+            <button
+              onClick={() => setIsAIAssistantOpen(true)}
               className="btn btn-liner-gradient me-3 d-lg-flex d-none"
+              aria-label="Open AI Assistant"
             >
               AI Assistance
               <i className="ti ti-chart-bubble-filled ms-1" />
-            </Link>
+            </button>
             {/* AI Assistance */}
             {/* Appointment */}
             <div className="header-item">
@@ -500,6 +503,14 @@ const Header = () => {
         </div>
       </header>
       {/* Topbar End */}
+      {/* AI Assistant Popup */}
+      <AIAssistantPopup
+        isOpen={isAIAssistantOpen}
+        onClose={() => setIsAIAssistantOpen(false)}
+        userRole="admin"
+        userName="Jimmy Anderson"
+      />
+
       {/* Search Modal */}
       <div className="modal fade" id="searchModal">
         <div className="modal-dialog modal-lg">
