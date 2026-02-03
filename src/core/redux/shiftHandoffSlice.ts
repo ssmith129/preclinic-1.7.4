@@ -1,86 +1,67 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
+import { 
+  shiftHandoffMockApi, 
+  type ShiftHandoffReport, 
+  type PatientHandoff 
+} from '../api/mock/shiftHandoffMockApi';
 
-// Types
-export interface PatientHandoff {
-  patientId: string;
-  patientName: string;
-  condition: string;
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  notes?: string;
-  assignedNurse?: string;
+// Re-export types for use in components
+export type { ShiftHandoffReport, PatientHandoff };
+
+interface ShiftHandoffPreferences {
+  autoPlayAudio: boolean;
+  expandedView: boolean;
+  showVitalsTrends: boolean;
 }
 
-export interface SBARReport {
-  patientId: string;
-  situation: string;
-  background: string;
-  assessment: string;
-  recommendation: string;
-  generatedAt: number;
-}
-
-export interface ShiftEvent {
-  id: string;
-  timestamp: number;
-  eventType: string;
-  description: string;
-  patientId?: string;
-}
-
-export interface ShiftHandoffState {
-  currentShift: {
-    id: string | null;
-    startTime: number | null;
-    endTime: number | null;
-    patients: PatientHandoff[];
-    events: ShiftEvent[];
-  };
-  sbarReports: Record<string, SBARReport>;
-  loading: boolean;
+interface ShiftHandoffState {
+  currentReport: ShiftHandoffReport | null;
+  isGenerating: boolean;
+  isAcknowledged: boolean;
+  selectedPatient: PatientHandoff | null;
+  audioPlaying: boolean;
   error: string | null;
+  preferences: ShiftHandoffPreferences;
 }
 
-// Initial state
 const initialState: ShiftHandoffState = {
-  currentShift: {
-    id: null,
-    startTime: null,
-    endTime: null,
-    patients: [],
-    events: [],
-  },
-  sbarReports: {},
-  loading: false,
+  currentReport: null,
+  isGenerating: false,
+  isAcknowledged: false,
+  selectedPatient: null,
+  audioPlaying: false,
   error: null,
+  preferences: {
+    autoPlayAudio: false,
+    expandedView: true,
+    showVitalsTrends: true
+  }
 };
 
 // Async Thunks
-export const generateSBARReport = createAsyncThunk(
-  'shiftHandoff/generateSBARReport',
-  async (patientId: string) => {
-    // TODO: Integrate with shiftHandoffMockApi
-    return {
-      patientId,
-      situation: '',
-      background: '',
-      assessment: '',
-      recommendation: '',
-      generatedAt: Date.now(),
-    } as SBARReport;
+export const generateHandoffReport = createAsyncThunk(
+  'shiftHandoff/generate',
+  async (params: {
+    outgoingNurseId: string;
+    incomingNurseId: string;
+    shiftType: 'day' | 'evening' | 'night';
+    unitId: string;
+  }) => {
+    return await shiftHandoffMockApi.generateHandoffReport(params);
   }
 );
 
-export const loadShiftData = createAsyncThunk(
-  'shiftHandoff/loadShiftData',
-  async (shiftId: string) => {
-    // TODO: Integrate with shiftHandoffMockApi
-    return {
-      id: shiftId,
-      startTime: Date.now(),
-      endTime: null,
-      patients: [] as PatientHandoff[],
-      events: [] as ShiftEvent[],
-    };
+export const acknowledgeHandoff = createAsyncThunk(
+  'shiftHandoff/acknowledge',
+  async (params: { reportId: string; nurseId: string }) => {
+    return await shiftHandoffMockApi.acknowledgeHandoff(params.reportId, params.nurseId);
+  }
+);
+
+export const fetchHandoffHistory = createAsyncThunk(
+  'shiftHandoff/fetchHistory',
+  async (params: { nurseId: string; days?: number }) => {
+    return await shiftHandoffMockApi.getHandoffHistory(params.nurseId, params.days);
   }
 );
 
@@ -89,67 +70,66 @@ const shiftHandoffSlice = createSlice({
   name: 'shiftHandoff',
   initialState,
   reducers: {
-    setCurrentShift: (
-      state,
-      action: PayloadAction<{ id: string; startTime: number }>
-    ) => {
-      state.currentShift.id = action.payload.id;
-      state.currentShift.startTime = action.payload.startTime;
+    selectPatient: (state, action: PayloadAction<PatientHandoff | null>) => {
+      state.selectedPatient = action.payload;
     },
-    addPatientToHandoff: (state, action: PayloadAction<PatientHandoff>) => {
-      state.currentShift.patients.push(action.payload);
+    toggleAudio: (state) => {
+      state.audioPlaying = !state.audioPlaying;
     },
-    removePatientFromHandoff: (state, action: PayloadAction<string>) => {
-      state.currentShift.patients = state.currentShift.patients.filter(
-        (p) => p.patientId !== action.payload
-      );
+    stopAudio: (state) => {
+      state.audioPlaying = false;
     },
-    addShiftEvent: (state, action: PayloadAction<ShiftEvent>) => {
-      state.currentShift.events.push(action.payload);
+    updatePreferences: (state, action: PayloadAction<Partial<ShiftHandoffPreferences>>) => {
+      state.preferences = { ...state.preferences, ...action.payload };
     },
-    updateSBARReport: (state, action: PayloadAction<SBARReport>) => {
-      state.sbarReports[action.payload.patientId] = action.payload;
+    clearReport: (state) => {
+      state.currentReport = null;
+      state.isAcknowledged = false;
+      state.selectedPatient = null;
+      state.audioPlaying = false;
+      state.error = null;
     },
-    clearShiftData: (state) => {
-      state.currentShift = initialState.currentShift;
-      state.sbarReports = {};
-    },
+    clearError: (state) => {
+      state.error = null;
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(generateSBARReport.pending, (state) => {
-        state.loading = true;
+      // Generate Handoff Report
+      .addCase(generateHandoffReport.pending, (state) => {
+        state.isGenerating = true;
+        state.error = null;
+        state.currentReport = null;
+        state.isAcknowledged = false;
+      })
+      .addCase(generateHandoffReport.fulfilled, (state, action) => {
+        state.isGenerating = false;
+        state.currentReport = action.payload;
+      })
+      .addCase(generateHandoffReport.rejected, (state, action) => {
+        state.isGenerating = false;
+        state.error = action.error.message || 'Failed to generate handoff report';
+      })
+      // Acknowledge Handoff
+      .addCase(acknowledgeHandoff.pending, (state) => {
         state.error = null;
       })
-      .addCase(generateSBARReport.fulfilled, (state, action) => {
-        state.loading = false;
-        state.sbarReports[action.payload.patientId] = action.payload;
+      .addCase(acknowledgeHandoff.fulfilled, (state) => {
+        state.isAcknowledged = true;
       })
-      .addCase(generateSBARReport.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to generate SBAR report';
-      })
-      .addCase(loadShiftData.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(loadShiftData.fulfilled, (state, action) => {
-        state.loading = false;
-        state.currentShift = action.payload;
-      })
-      .addCase(loadShiftData.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to load shift data';
+      .addCase(acknowledgeHandoff.rejected, (state, action) => {
+        state.error = action.error.message || 'Failed to acknowledge handoff';
       });
-  },
+  }
 });
 
-export const {
-  setCurrentShift,
-  addPatientToHandoff,
-  removePatientFromHandoff,
-  addShiftEvent,
-  updateSBARReport,
-  clearShiftData,
+export const { 
+  selectPatient, 
+  toggleAudio, 
+  stopAudio,
+  updatePreferences, 
+  clearReport,
+  clearError
 } = shiftHandoffSlice.actions;
 
 export default shiftHandoffSlice.reducer;
