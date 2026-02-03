@@ -373,3 +373,169 @@ class MockAlertWebSocket {
 }
 
 export const alertWebSocket = new MockAlertWebSocket();
+
+// ============================================
+// Feature 6: Intelligent Calendar Scheduling
+// ============================================
+export interface CalendarSlot {
+  id: string;
+  datetime: string;
+  endTime: string;
+  providerId: string;
+  providerName: string;
+  providerImage: string;
+  matchScore: number;
+  noShowRisk: number;
+  factors: {
+    providerAvailability: number;
+    patientConvenience: number;
+    historicalSuccess: number;
+    resourceOptimization: number;
+  };
+  appointmentType: string;
+  status: 'available' | 'recommended' | 'limited';
+}
+
+export interface CalendarDaySlots {
+  date: string;
+  slots: CalendarSlot[];
+  dayInsights: {
+    totalSlots: number;
+    optimalSlots: number;
+    averageNoShowRisk: number;
+    busyPeriods: string[];
+  };
+}
+
+const PROVIDER_DATA = [
+  { id: 'd1', name: 'Dr. Alex Morgan', image: 'assets/img/users/user-01.jpg', specialty: 'General Practice' },
+  { id: 'd2', name: 'Dr. Sarah Johnson', image: 'assets/img/users/user-02.jpg', specialty: 'Internal Medicine' },
+  { id: 'd3', name: 'Dr. Emily Carter', image: 'assets/img/users/user-03.jpg', specialty: 'Pediatrics' },
+  { id: 'd4', name: 'Dr. David Lee', image: 'assets/img/users/user-04.jpg', specialty: 'Cardiology' },
+  { id: 'd5', name: 'Dr. Maria Santos', image: 'assets/img/users/user-05.jpg', specialty: 'Dermatology' },
+];
+
+const APPOINTMENT_TYPES = [
+  'General Consultation',
+  'Follow-up Visit',
+  'Annual Physical',
+  'Specialist Referral',
+  'Urgent Care',
+  'Telehealth Visit',
+];
+
+export async function getCalendarDaySlots(date: string): Promise<CalendarDaySlots> {
+  await delay(300 + Math.random() * 400);
+
+  const selectedDate = new Date(date);
+  const dayOfWeek = selectedDate.getDay();
+
+  // Weekend has fewer slots
+  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+  const numSlots = isWeekend ? 3 + Math.floor(Math.random() * 3) : 6 + Math.floor(Math.random() * 4);
+
+  const slots: CalendarSlot[] = [];
+  const startHour = 8; // 8 AM
+  const endHour = 17; // 5 PM
+
+  for (let i = 0; i < numSlots; i++) {
+    const provider = PROVIDER_DATA[i % PROVIDER_DATA.length];
+    const hour = startHour + Math.floor((i / numSlots) * (endHour - startHour));
+    const minute = Math.random() > 0.5 ? 0 : 30;
+
+    const slotDate = new Date(selectedDate);
+    slotDate.setHours(hour, minute, 0, 0);
+
+    const endDate = new Date(slotDate);
+    endDate.setMinutes(endDate.getMinutes() + 30);
+
+    const matchScore = Math.round(60 + Math.random() * 40);
+    const noShowRisk = Math.round(5 + Math.random() * 30);
+
+    // Determine status based on scores
+    let status: 'available' | 'recommended' | 'limited' = 'available';
+    if (matchScore >= 85 && noShowRisk < 15) {
+      status = 'recommended';
+    } else if (matchScore < 70 || noShowRisk > 25) {
+      status = 'limited';
+    }
+
+    slots.push({
+      id: `slot-${date}-${i}`,
+      datetime: slotDate.toISOString(),
+      endTime: endDate.toISOString(),
+      providerId: provider.id,
+      providerName: provider.name,
+      providerImage: provider.image,
+      matchScore,
+      noShowRisk,
+      factors: {
+        providerAvailability: Math.round(70 + Math.random() * 30),
+        patientConvenience: Math.round(60 + Math.random() * 40),
+        historicalSuccess: Math.round(75 + Math.random() * 25),
+        resourceOptimization: Math.round(65 + Math.random() * 35),
+      },
+      appointmentType: APPOINTMENT_TYPES[Math.floor(Math.random() * APPOINTMENT_TYPES.length)],
+      status,
+    });
+  }
+
+  // Sort by match score
+  slots.sort((a, b) => b.matchScore - a.matchScore);
+
+  // Calculate day insights
+  const avgNoShowRisk = slots.reduce((sum, s) => sum + s.noShowRisk, 0) / slots.length;
+  const optimalSlots = slots.filter(s => s.status === 'recommended').length;
+
+  const busyPeriods: string[] = [];
+  if (Math.random() > 0.5) busyPeriods.push('11:00 AM - 12:00 PM');
+  if (Math.random() > 0.6) busyPeriods.push('2:00 PM - 3:00 PM');
+
+  return {
+    date,
+    slots,
+    dayInsights: {
+      totalSlots: slots.length,
+      optimalSlots,
+      averageNoShowRisk: Math.round(avgNoShowRisk),
+      busyPeriods,
+    },
+  };
+}
+
+export interface BookedAppointment {
+  id: string;
+  title: string;
+  start: string;
+  end: string;
+  providerId: string;
+  providerName: string;
+  providerImage: string;
+  patientName: string;
+  appointmentType: string;
+  matchScore: number;
+  noShowRisk: number;
+  status: 'confirmed' | 'pending' | 'completed' | 'cancelled';
+}
+
+export async function bookCalendarSlot(
+  slot: CalendarSlot,
+  patientName: string = 'Patient'
+): Promise<BookedAppointment> {
+  await delay(400 + Math.random() * 300);
+
+  return {
+    id: `apt-${Date.now()}`,
+    title: `${patientName} - ${slot.appointmentType}`,
+    start: slot.datetime,
+    end: slot.endTime,
+    providerId: slot.providerId,
+    providerName: slot.providerName,
+    providerImage: slot.providerImage,
+    patientName,
+    appointmentType: slot.appointmentType,
+    matchScore: slot.matchScore,
+    noShowRisk: slot.noShowRisk,
+    status: 'confirmed',
+  };
+}
