@@ -1,0 +1,195 @@
+/* AI Components Styles - PreClinic Platform */
+
+// Triage Priority Badge Styles
+.triage-badge {
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// AI Dashboard Section
+.ai-suggestions-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--bs-warning);
+}
+
+// Smart Scheduler Styles
+.smart-scheduler {
+  .slot-item {
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: var(--bs-primary) !important;
+      background-color: rgba(var(--bs-primary-rgb), 0.05);
+    }
+    
+    &.selected {
+      border-color: var(--bs-primary) !important;
+      background-color: rgba(var(--bs-primary-rgb), 0.1);
+    }
+  }
+  
+  .ant-rate {
+    font-size: 14px;
+  }
+}
+
+// Clinical Alert Widget Styles
+.clinical-alerts-widget {
+  .alert-item {
+    background-color: #fff;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  .alert-timeline {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+}
+
+// Pulse animation for live indicator
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+// Smart Message Router Styles
+.smart-message-router {
+  .ant-tag {
+    margin-right: 4px;
+  }
+  
+  .ant-input-textarea {
+    textarea {
+      border-radius: 8px;
+    }
+  }
+}
+
+// AI Widget Card Styles
+.ai-widget-card {
+  border-left: 4px solid var(--bs-warning);
+  
+  .ai-badge {
+    background: linear-gradient(135deg, #FFD93D 0%, #FF9800 100%);
+  }
+}
+
+// Soft background utilities for alerts
+.bg-soft-error,
+.bg-soft-danger {
+  background-color: rgba(244, 67, 54, 0.1) !important;
+}
+
+.bg-soft-warning {
+  background-color: rgba(255, 152, 0, 0.1) !important;
+}
+
+.bg-soft-info {
+  background-color: rgba(33, 150, 243, 0.1) !important;
+}
+
+.bg-soft-success {
+  background-color: rgba(76, 175, 80, 0.1) !important;
+}
+
+.bg-warning-light {
+  background-color: rgba(255, 193, 7, 0.8) !important;
+}
+
+// Patient Acuity Widget
+.acuity-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+// AI Insights Widget
+.insight-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  
+  &.info {
+    background-color: rgba(33, 150, 243, 0.1);
+  }
+  
+  &.warning {
+    background-color: rgba(255, 152, 0, 0.1);
+  }
+  
+  &.success {
+    background-color: rgba(76, 175, 80, 0.1);
+  }
+}
+
+// Responsive adjustments for AI widgets
+@media (max-width: 768px) {
+  .smart-scheduler .slot-item {
+    flex-direction: column;
+    
+    .slot-factors {
+      margin-top: 0.5rem;
+    }
+  }
+  
+  .clinical-alerts-widget .alert-timeline {
+    max-height: 300px;
+  }
+}
+
+// Sparkle icon animation
+.ti-sparkles {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+// Override Ant Design styles for consistency
+.ant-progress-circle {
+  .ant-progress-text {
+    font-size: 10px !important;
+    font-weight: 600;
+  }
+}
+
+.ant-tooltip {
+  max-width: 300px;
+}
+
+// Custom cursor for interactive AI elements
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// Transition utilities
+.transition-all {
+  transition: all 0.2s ease;
+}
