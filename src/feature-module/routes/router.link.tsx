@@ -1388,6 +1388,12 @@ export const publicRoutes = [
     element: <BanIpAddressSettings />,
     route: Route,
   },
+  // AI Features
+  {
+    path: routes.shiftHandoff,
+    element: <ShiftHandoff />,
+    route: Route,
+  },
 ];
 export const authRoutes = [
   {
