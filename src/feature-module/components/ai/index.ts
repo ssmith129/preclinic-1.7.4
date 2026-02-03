@@ -21,3 +21,6 @@ export { default as ClinicalAlertWidget } from './ClinicalAlertWidget';
 
 // Feature 5: Smart Message Router
 export { default as SmartMessageRouter } from './SmartMessageRouter';
+
+// Feature 6: Intelligent Appointment Calendar
+export { default as IntelligentCalendar } from './IntelligentCalendar';
