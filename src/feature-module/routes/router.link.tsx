@@ -1517,10 +1517,4 @@ export const authRoutes = [
     element: <UnderMaintenance />,
     route: Route,
   },
-  // AI Features
-  {
-    path: routes.shiftHandoff,
-    element: <ShiftHandoff />,
-    route: Route,
-  },
 ];
