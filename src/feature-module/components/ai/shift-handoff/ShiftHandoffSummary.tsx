@@ -81,7 +81,7 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
       <div className="shift-handoff-loading">
         <div className="loading-content">
           <div className="loading-spinner"></div>
-          <h3>Generating AI-Powered Shift Handoff Report</h3>
+          <h3>Generating Smart Shift Handoff Report</h3>
           <p>Analyzing patient data, vital trends, and recent events...</p>
           <div className="loading-progress">
             <div className="progress-bar"></div>
@@ -121,7 +121,7 @@ const ShiftHandoffSummary: React.FC<ShiftHandoffSummaryProps> = ({
           <div className="header-title">
             <span className="shift-icon">{getShiftIcon(currentReport.shiftType)}</span>
             <div className="title-text">
-              <h2>AI-Generated Shift Handoff</h2>
+              <h2>Shift Handoff</h2>
               <span className="shift-info">
                 {getShiftLabel(currentReport.shiftType)} • {currentReport.unitName}
               </span>
