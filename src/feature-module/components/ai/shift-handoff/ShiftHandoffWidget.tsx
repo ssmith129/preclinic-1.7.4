@@ -75,7 +75,7 @@ const ShiftHandoffWidget: React.FC<ShiftHandoffWidgetProps> = ({
       <div className="card shadow-sm h-100 shift-handoff-widget">
         <div className="card-header d-flex align-items-center justify-content-between py-2">
           <div className="d-flex align-items-center">
-            <h6 className="fw-bold mb-0 fs-14">AI Shift Handoff</h6>
+            <h6 className="fw-bold mb-0 fs-14">Shift Handoff</h6>
             <span className="badge bg-primary text-white ms-2 px-2 py-1 fs-10">
               <i className="ti ti-sparkles me-1" />
               AI
@@ -99,7 +99,7 @@ const ShiftHandoffWidget: React.FC<ShiftHandoffWidgetProps> = ({
       {/* Header */}
       <div className="card-header d-flex align-items-center justify-content-between py-2">
         <div className="d-flex align-items-center">
-          <h6 className="fw-bold mb-0 fs-14">AI Shift Handoff</h6>
+          <h6 className="fw-bold mb-0 fs-14">Shift Handoff</h6>
           <span className="badge bg-primary text-white ms-2 px-2 py-1 fs-10">
             <i className="ti ti-sparkles me-1" />
             AI
