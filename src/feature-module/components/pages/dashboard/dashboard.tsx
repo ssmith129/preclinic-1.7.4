@@ -10,7 +10,7 @@ import SCol19Chart from "./chats/scol19";
 import CircleChart from "./chats/circleChart";
 import { Calendar, type CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
-import { AIDashboardSection } from "../../ai";
+import { AIDashboardSection, ShiftHandoffWidget } from "../../ai";
 
 const Dashboard = () => {
   const [sColChart] = useState<any>({
