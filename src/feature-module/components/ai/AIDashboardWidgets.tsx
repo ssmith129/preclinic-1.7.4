@@ -189,9 +189,9 @@ const PatientQueueWidget: React.FC = () => {
 // AI Insights Widget
 const AIInsightsWidget: React.FC = () => {
   const insights = [
-    { icon: 'ti-trending-up', text: 'Patient volume expected to increase 15% this afternoon', type: 'info' },
-    { icon: 'ti-alert-circle', text: '3 patients showing early signs of deterioration', type: 'warning' },
-    { icon: 'ti-calendar', text: 'Optimal scheduling window: 2:00 PM - 4:00 PM', type: 'success' },
+    { icon: 'ti-trending-up', text: 'Patient volume expected to increase 15% this afternoon', type: 'info', color: '#2196F3' },
+    { icon: 'ti-alert-circle', text: '3 patients showing early signs of deterioration', type: 'warning', color: '#FF9800' },
+    { icon: 'ti-calendar', text: 'Optimal scheduling window: 2:00 PM - 4:00 PM', type: 'success', color: '#4CAF50' },
   ];
 
   return (
@@ -199,16 +199,22 @@ const AIInsightsWidget: React.FC = () => {
       {insights.map((insight, idx) => (
         <div
           key={idx}
-          className={`d-flex align-items-start p-2 mb-2 rounded bg-soft-${insight.type}`}
+          className="d-flex align-items-start py-2 border-bottom"
+          style={{ borderColor: '#f0f0f0' }}
         >
-          <i className={`ti ${insight.icon} me-2 mt-1 text-${insight.type}`} />
-          <span className="small">{insight.text}</span>
+          <span
+            className="avatar avatar-sm rounded-circle me-2 flex-shrink-0 d-flex align-items-center justify-content-center"
+            style={{ backgroundColor: `${insight.color}15`, width: 28, height: 28 }}
+          >
+            <i className={`ti ${insight.icon} fs-14`} style={{ color: insight.color }} />
+          </span>
+          <span className="fs-13 lh-sm">{insight.text}</span>
         </div>
       ))}
-      <div className="text-center mt-3">
-        <span className="text-muted small">
+      <div className="text-center pt-2">
+        <span className="text-muted fs-12">
           <i className="ti ti-sparkles me-1" />
-          AI-generated insights based on current data
+          AI-generated insights
         </span>
       </div>
     </div>
