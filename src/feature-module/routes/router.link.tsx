@@ -1,4 +1,3 @@
-
 import EmailVerificationBasic from "../components/auth/email-verification/emailVerificationBasic";
 import EmailVerificationCover from "../components/auth/email-verification/emailVerificationCover";
 import EmailVerificationIllustration from "../components/auth/email-verification/emailVerificationIllustration";
@@ -19,6 +18,7 @@ import ResetPasswordBasic from "../components/auth/reset-password/resetPasswordB
 import ResetPasswordCover from "../components/auth/reset-password/resetPasswordCover";
 import ResetPasswordIllustration from "../components/auth/reset-password/resetPasswordIllustration";
 import TwoStepVerificationBasic from "../components/auth/two-step-verification/twoStepVerificationBasic";
+import ShiftHandoff from "../components/pages/ai-modules/shift-handoff/shiftHandoff";
 import TwoStepVerificationCover from "../components/auth/two-step-verification/twoStepVerificationCover";
 import TwoStepVerificationIllustration from "../components/auth/two-step-verification/twoStepVerificationIllustration";
 import AppointmentReport from "../components/pages/administration-modules/reports/appointment-report/appointmentReport";
@@ -1509,6 +1509,12 @@ export const authRoutes = [
   {
     path: routes.underMaintenance,
     element: <UnderMaintenance />,
+    route: Route,
+  },
+  // AI Features
+  {
+    path: routes.shiftHandoff,
+    element: <ShiftHandoff />,
     route: Route,
   },
 ];
