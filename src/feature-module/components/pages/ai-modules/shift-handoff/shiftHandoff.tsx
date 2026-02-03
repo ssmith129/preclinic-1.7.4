@@ -15,9 +15,6 @@ const ShiftHandoff: React.FC = () => {
                   <li className="breadcrumb-item">
                     <a href="/dashboard">Dashboard</a>
                   </li>
-                  <li className="breadcrumb-item">
-                    <a href="#">AI Features</a>
-                  </li>
                   <li className="breadcrumb-item active">Shift Handoff</li>
                 </ul>
               </div>
