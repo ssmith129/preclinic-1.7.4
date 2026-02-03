@@ -1,0 +1,158 @@
+/**
+ * Feature 7: AI-Powered Shift Handoff Styles
+ */
+
+// Shift Handoff Summary
+.shift-handoff-summary {
+  padding: 1.5rem;
+  background: var(--card-bg, #fff);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary, #333);
+  }
+}
+
+// SBAR Generator
+.sbar-generator {
+  padding: 1.5rem;
+  background: var(--card-bg, #fff);
+  border-radius: 8px;
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .sbar-section {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-left: 4px solid var(--primary-color, #0d6efd);
+    background: var(--bg-light, #f8f9fa);
+
+    &.situation { border-color: #dc3545; }
+    &.background { border-color: #ffc107; }
+    &.assessment { border-color: #28a745; }
+    &.recommendation { border-color: #17a2b8; }
+
+    h4 {
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+// Patient Handoff Card
+.patient-handoff-card {
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background: var(--card-bg, #fff);
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .priority-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &.priority-low {
+      background: #d4edda;
+      color: #155724;
+    }
+    &.priority-medium {
+      background: #fff3cd;
+      color: #856404;
+    }
+    &.priority-high {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    &.priority-critical {
+      background: #721c24;
+      color: #fff;
+    }
+  }
+}
+
+// Handoff Timeline
+.handoff-timeline {
+  padding: 1.5rem;
+
+  h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .timeline-container {
+    position: relative;
+    padding-left: 2rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 8px;
+      width: 2px;
+      background: var(--border-color, #dee2e6);
+    }
+  }
+
+  .timeline-event {
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--card-bg, #fff);
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 1.25rem;
+      left: -1.5rem;
+      width: 12px;
+      height: 12px;
+      background: var(--primary-color, #0d6efd);
+      border: 2px solid #fff;
+      border-radius: 50%;
+    }
+
+    .event-time {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--text-muted, #6c757d);
+    }
+
+    .event-description {
+      font-size: 0.875rem;
+      color: var(--text-primary, #333);
+    }
+  }
+}
