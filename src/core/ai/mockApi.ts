@@ -539,3 +539,300 @@ export async function bookCalendarSlot(
     status: 'confirmed',
   };
 }
+
+// ============================================
+// Feature 7: AI Assistance Agent
+// ============================================
+export type UserRoleType = 'doctor' | 'nurse' | 'admin';
+
+export interface AIMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: number;
+  actions?: AIAction[];
+  navigationLink?: string;
+}
+
+export interface AIAction {
+  id: string;
+  label: string;
+  type: 'navigation' | 'appointment' | 'action' | 'info';
+  payload?: Record<string, unknown>;
+  icon?: string;
+}
+
+export interface QuickAction {
+  id: string;
+  label: string;
+  icon: string;
+  prompt: string;
+  roles: UserRoleType[];
+}
+
+export interface AIConversationResponse {
+  message: AIMessage;
+  suggestedActions?: AIAction[];
+}
+
+// Quick actions by role
+const QUICK_ACTIONS: QuickAction[] = [
+  // Doctor actions
+  { id: 'qa-1', label: 'View My Schedule', icon: 'ti-calendar', prompt: 'Show me my schedule for today', roles: ['doctor'] },
+  { id: 'qa-2', label: 'Patient Queue', icon: 'ti-users', prompt: 'Show my patient queue', roles: ['doctor'] },
+  { id: 'qa-3', label: 'Write Prescription', icon: 'ti-prescription', prompt: 'Help me write a prescription', roles: ['doctor'] },
+  { id: 'qa-4', label: 'Lab Results', icon: 'ti-flask', prompt: 'Show pending lab results', roles: ['doctor'] },
+
+  // Nurse actions
+  { id: 'qa-5', label: 'Patient Vitals', icon: 'ti-heartbeat', prompt: 'Record patient vitals', roles: ['nurse'] },
+  { id: 'qa-6', label: 'Medication Schedule', icon: 'ti-pill', prompt: 'Show medication schedule', roles: ['nurse'] },
+  { id: 'qa-7', label: 'Shift Handoff', icon: 'ti-transfer', prompt: 'Prepare shift handoff report', roles: ['nurse'] },
+  { id: 'qa-8', label: 'Bed Status', icon: 'ti-bed', prompt: 'Show current bed availability', roles: ['nurse'] },
+
+  // Admin actions
+  { id: 'qa-9', label: 'Daily Reports', icon: 'ti-report', prompt: 'Generate daily reports', roles: ['admin'] },
+  { id: 'qa-10', label: 'Staff Schedule', icon: 'ti-calendar-time', prompt: 'Show staff schedule', roles: ['admin'] },
+  { id: 'qa-11', label: 'Revenue Overview', icon: 'ti-chart-bar', prompt: 'Show revenue overview', roles: ['admin'] },
+  { id: 'qa-12', label: 'Pending Approvals', icon: 'ti-checkbox', prompt: 'Show pending approvals', roles: ['admin'] },
+
+  // Common actions
+  { id: 'qa-13', label: 'Schedule Appointment', icon: 'ti-calendar-plus', prompt: 'Help me schedule an appointment', roles: ['doctor', 'nurse', 'admin'] },
+  { id: 'qa-14', label: 'Find Patient', icon: 'ti-search', prompt: 'Help me find a patient', roles: ['doctor', 'nurse', 'admin'] },
+  { id: 'qa-15', label: 'Navigate Platform', icon: 'ti-compass', prompt: 'Help me navigate the platform', roles: ['doctor', 'nurse', 'admin'] },
+];
+
+// Navigation mapping
+const NAVIGATION_MAP: Record<string, { path: string; description: string }> = {
+  'dashboard': { path: '/dashboard', description: 'Main Dashboard' },
+  'appointments': { path: '/appointments', description: 'Appointments' },
+  'calendar': { path: '/application/calendar', description: 'Calendar' },
+  'patients': { path: '/patients', description: 'Patient List' },
+  'doctors': { path: '/doctors', description: 'Doctor List' },
+  'messages': { path: '/messages', description: 'Messages' },
+  'reports': { path: '/accounts/invoices', description: 'Reports & Invoices' },
+  'settings': { path: '/settings/profile-settings', description: 'Settings' },
+  'pharmacy': { path: '/pharmacy', description: 'Pharmacy' },
+  'lab': { path: '/lab', description: 'Laboratory' },
+};
+
+// Response templates for different intents
+const RESPONSE_TEMPLATES = {
+  greeting: [
+    "Hello! I'm your AI Assistant for PreClinic. How can I help you today?",
+    "Hi there! I'm here to help you with appointments, navigation, and quick actions. What do you need?",
+    "Welcome! I can help you schedule appointments, find information, or navigate the platform. What would you like to do?",
+  ],
+
+  scheduling: [
+    "I can help you schedule an appointment. Here are the available options:",
+    "Let me help you with scheduling. I'll find the best available slots for you.",
+    "Sure! I'll assist you with appointment scheduling. What type of appointment do you need?",
+  ],
+
+  navigation: [
+    "I can help you navigate to any section of the platform. Here are some quick links:",
+    "Where would you like to go? I can take you to any page in the system.",
+    "Let me help you find what you're looking for. Here are the main sections:",
+  ],
+
+  patientSearch: [
+    "I can help you find patient information. Please provide the patient name or ID.",
+    "Let me search for the patient. What details do you have?",
+    "I'll help you locate the patient record. Please share any identifying information.",
+  ],
+
+  schedule: [
+    "Here's your schedule overview for today. You have several appointments lined up.",
+    "Let me pull up your schedule. I can see your upcoming appointments.",
+    "Your schedule is ready. Here's what you have planned:",
+  ],
+
+  fallback: [
+    "I understand you need help with that. Let me provide some options:",
+    "I can assist with that. Here are some things I can help you with:",
+    "Sure, I'm here to help. Here's what I can do for you:",
+  ],
+};
+
+// Intent detection patterns
+const INTENT_PATTERNS = {
+  greeting: /^(hi|hello|hey|good morning|good afternoon|good evening|greetings)/i,
+  scheduling: /(schedule|book|appointment|reschedule|cancel appointment|make an appointment)/i,
+  navigation: /(go to|navigate|take me|open|show me|where is|find the)/i,
+  patientSearch: /(find patient|search patient|patient.*record|look up patient)/i,
+  schedule: /(my schedule|my appointments|what do I have|my day|my calendar)/i,
+  help: /(help|what can you do|assist|support)/i,
+};
+
+function detectIntent(message: string): keyof typeof RESPONSE_TEMPLATES {
+  const lowerMessage = message.toLowerCase();
+
+  for (const [intent, pattern] of Object.entries(INTENT_PATTERNS)) {
+    if (pattern.test(lowerMessage)) {
+      return intent as keyof typeof RESPONSE_TEMPLATES;
+    }
+  }
+
+  return 'fallback';
+}
+
+function getRandomResponse(intent: keyof typeof RESPONSE_TEMPLATES): string {
+  const responses = RESPONSE_TEMPLATES[intent];
+  return responses[Math.floor(Math.random() * responses.length)];
+}
+
+function extractNavigationTarget(message: string): string | null {
+  const lowerMessage = message.toLowerCase();
+
+  for (const [key, value] of Object.entries(NAVIGATION_MAP)) {
+    if (lowerMessage.includes(key) || lowerMessage.includes(value.description.toLowerCase())) {
+      return key;
+    }
+  }
+
+  return null;
+}
+
+function generateActions(intent: string, message: string): AIAction[] {
+  const actions: AIAction[] = [];
+
+  switch (intent) {
+    case 'scheduling':
+      actions.push(
+        { id: 'act-1', label: 'New Appointment', type: 'appointment', icon: 'ti-calendar-plus' },
+        { id: 'act-2', label: 'View Calendar', type: 'navigation', payload: { path: '/application/calendar' }, icon: 'ti-calendar' },
+        { id: 'act-3', label: 'Reschedule Existing', type: 'appointment', icon: 'ti-calendar-event' },
+      );
+      break;
+
+    case 'navigation':
+      const target = extractNavigationTarget(message);
+      if (target && NAVIGATION_MAP[target]) {
+        actions.push({
+          id: 'nav-1',
+          label: `Go to ${NAVIGATION_MAP[target].description}`,
+          type: 'navigation',
+          payload: { path: NAVIGATION_MAP[target].path },
+          icon: 'ti-arrow-right',
+        });
+      } else {
+        // Provide common navigation options
+        actions.push(
+          { id: 'nav-1', label: 'Dashboard', type: 'navigation', payload: { path: '/dashboard' }, icon: 'ti-dashboard' },
+          { id: 'nav-2', label: 'Appointments', type: 'navigation', payload: { path: '/appointments' }, icon: 'ti-calendar' },
+          { id: 'nav-3', label: 'Patients', type: 'navigation', payload: { path: '/patients' }, icon: 'ti-users' },
+          { id: 'nav-4', label: 'Calendar', type: 'navigation', payload: { path: '/application/calendar' }, icon: 'ti-calendar-event' },
+        );
+      }
+      break;
+
+    case 'patientSearch':
+      actions.push(
+        { id: 'ps-1', label: 'Search Patients', type: 'navigation', payload: { path: '/patients' }, icon: 'ti-search' },
+        { id: 'ps-2', label: 'Recent Patients', type: 'info', icon: 'ti-history' },
+      );
+      break;
+
+    case 'schedule':
+      actions.push(
+        { id: 'sch-1', label: 'Today\'s Appointments', type: 'navigation', payload: { path: '/appointments' }, icon: 'ti-calendar-check' },
+        { id: 'sch-2', label: 'View Full Calendar', type: 'navigation', payload: { path: '/application/calendar' }, icon: 'ti-calendar' },
+        { id: 'sch-3', label: 'Add Appointment', type: 'appointment', icon: 'ti-plus' },
+      );
+      break;
+
+    case 'help':
+    case 'greeting':
+    case 'fallback':
+    default:
+      actions.push(
+        { id: 'help-1', label: 'Schedule Appointment', type: 'appointment', icon: 'ti-calendar-plus' },
+        { id: 'help-2', label: 'Navigate Platform', type: 'info', icon: 'ti-compass' },
+        { id: 'help-3', label: 'Quick Actions', type: 'info', icon: 'ti-bolt' },
+      );
+      break;
+  }
+
+  return actions;
+}
+
+export function getQuickActions(role: UserRoleType): QuickAction[] {
+  return QUICK_ACTIONS.filter(action => action.roles.includes(role));
+}
+
+export async function sendAIMessage(
+  message: string,
+  conversationHistory: AIMessage[],
+  userRole: UserRoleType
+): Promise<AIConversationResponse> {
+  // Simulate API delay with typing effect
+  await delay(800 + Math.random() * 1200);
+
+  const intent = detectIntent(message);
+  const responseText = getRandomResponse(intent);
+  const actions = generateActions(intent, message);
+
+  // Check for navigation target
+  let navigationLink: string | undefined;
+  if (intent === 'navigation') {
+    const target = extractNavigationTarget(message);
+    if (target && NAVIGATION_MAP[target]) {
+      navigationLink = NAVIGATION_MAP[target].path;
+    }
+  }
+
+  const response: AIMessage = {
+    id: `msg-${Date.now()}`,
+    role: 'assistant',
+    content: responseText,
+    timestamp: Date.now(),
+    actions,
+    navigationLink,
+  };
+
+  return {
+    message: response,
+    suggestedActions: actions,
+  };
+}
+
+export async function executeAIAction(
+  action: AIAction,
+  userRole: UserRoleType
+): Promise<{ success: boolean; message: string; data?: unknown }> {
+  await delay(300 + Math.random() * 500);
+
+  switch (action.type) {
+    case 'navigation':
+      return {
+        success: true,
+        message: `Navigating to ${action.label}`,
+        data: action.payload,
+      };
+
+    case 'appointment':
+      return {
+        success: true,
+        message: 'Opening appointment scheduler...',
+        data: { redirectTo: '/application/calendar' },
+      };
+
+    case 'action':
+      return {
+        success: true,
+        message: `Executing: ${action.label}`,
+      };
+
+    case 'info':
+      return {
+        success: true,
+        message: `Here's the information you requested about ${action.label}`,
+      };
+
+    default:
+      return {
+        success: false,
+        message: 'Unknown action type',
+      };
+  }
+}
